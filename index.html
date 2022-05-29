@@ -436,6 +436,95 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge, pre.rouge .w {
+  color: #fbf1c7;
+  background-color: #282828;
+}
+pre.rouge .err {
+  color: #fb4934;
+  background-color: #282828;
+  font-weight: bold;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
+  color: #928374;
+  font-style: italic;
+}
+pre.rouge .cp {
+  color: #8ec07c;
+}
+pre.rouge .nt {
+  color: #fb4934;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #fbf1c7;
+}
+pre.rouge .p, pre.rouge .pi {
+  color: #fbf1c7;
+}
+pre.rouge .gi {
+  color: #b8bb26;
+  background-color: #282828;
+}
+pre.rouge .gd {
+  color: #fb4934;
+  background-color: #282828;
+}
+pre.rouge .gh {
+  color: #b8bb26;
+  font-weight: bold;
+}
+pre.rouge .k, pre.rouge .kn, pre.rouge .kp, pre.rouge .kr, pre.rouge .kv {
+  color: #fb4934;
+}
+pre.rouge .kc {
+  color: #d3869b;
+}
+pre.rouge .kt {
+  color: #fabd2f;
+}
+pre.rouge .kd {
+  color: #fe8019;
+}
+pre.rouge .s, pre.rouge .sb, pre.rouge .sc, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .sh, pre.rouge .sx, pre.rouge .s1 {
+  color: #b8bb26;
+  font-style: italic;
+}
+pre.rouge .si {
+  color: #b8bb26;
+  font-style: italic;
+}
+pre.rouge .sr {
+  color: #b8bb26;
+  font-style: italic;
+}
+pre.rouge .sa {
+  color: #fb4934;
+}
+pre.rouge .se {
+  color: #fe8019;
+}
+pre.rouge .nn {
+  color: #8ec07c;
+}
+pre.rouge .nc {
+  color: #8ec07c;
+}
+pre.rouge .no {
+  color: #d3869b;
+}
+pre.rouge .na {
+  color: #b8bb26;
+}
+pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
+  color: #d3869b;
+}
+pre.rouge .ss {
+  color: #83a598;
+}
+</style>
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -487,7 +576,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 de Computação e Automação da UFRN ministrada pelo professor Agostinho Brito Jr. no semestre de 2022.1.</p>
 </div>
 <div class="paragraph">
-<p>Os exercícios podem ser encontrados no <a href="https://agostinhobritojr.github.io/tutorial/pdi">tutorial do professor</a>.</p>
+<p>Os exercícios podem ser encontrados na <a href="https://agostinhobritojr.github.io/tutorial/pdi">página do professor</a>.</p>
 </div>
 </div>
 </div>
@@ -496,11 +585,71 @@ de Computação e Automação da UFRN ministrada pelo professor Agostinho Brito 
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_2_1_aplicar_região_negativa">2.1. Aplicar região negativa</h3>
-
+<div class="paragraph">
+<p>O objetivo desse exercício é exibir o negativo de uma imagem dentro da região retangular selecionada pelo usuário através de 2 pontos que serão
+os vértices desse retângulo. Para isso é solicitado que o usuário digite as coordenadas de dois pontos e, então, o negativo é calculado através do
+complemento do tom de cinza de cada pixel da região selecionada (complemento = 255 - tom de cinza do pixel), como pode ser visto no código abaixo:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">=</span><span class="mi">255</span> <span class="o">-</span> <span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Isso foi feito para todos os pixels da região retangular delimitada pelos vértices (50,50) e (350,350) da <a href="index.html#gato_exercicio2">Figura 1</a>,
+e o resultado pode ser visto na <a href="index.html#gato_saida_exercicio2">Figura 2</a>. O código completo se encontra em <a href="exercicio2/regions.cpp">regions.cpp</a>.</p>
+</div>
+<div id="gato_exercicio2" class="imageblock">
+<div class="content">
+<img src="exercicio2/gato.jpg" alt="gato">
+</div>
+<div class="title">Figure 1. Imagem de entrada</div>
+</div>
+<div id="gato_saida_exercicio2" class="imageblock">
+<div class="content">
+<img src="exercicio2/gato_saida.jpg" alt="gato saida">
+</div>
+<div class="title">Figure 2. Imagem de saída</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_2_2_trocar_os_quadrantes_em_diagonal_na_imagem">2.2. Trocar os quadrantes em diagonal na imagem</h3>
-
+<div class="paragraph">
+<p>Neste exercício, o objetivo é trocar os quadrantes em diagonal de uma imagem. Para isso, foi criada uma nova variável <code>novaImagem</code> do tipo
+<code>Mat</code> com as mesmas dimensões da imagem de entrada:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">int</span> <span class="n">altura</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">().</span><span class="n">height</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">largura</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">size</span><span class="p">().</span><span class="n">width</span><span class="p">;</span>
+<span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="nf">novaImagem</span><span class="p">(</span><span class="n">altura</span><span class="p">,</span> <span class="n">largura</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>E em seguida foi feita a troca de quadrantes da imagem de entrada na <code>novaImagem</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp">  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">altura</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">largura</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="n">novaImagem</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">altura</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="n">largura</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+      <span class="n">novaImagem</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">altura</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="n">largura</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">);</span>
+      <span class="n">novaImagem</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">altura</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="n">largura</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+      <span class="n">novaImagem</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="n">largura</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">altura</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">j</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A imagem de entrada foi novamente a <a href="index.html#gato_exercicio2">Figura 1</a>, e o resultado pode ser visto na
+<a href="index.html#gato_saida2_exercicio2">Figura 3</a>. O código completo se encontra em <a href="exercicio2/trocaregioes.cpp">trocaregioes.cpp</a>.</p>
+</div>
+<div id="gato_saida2_exercicio2" class="imageblock">
+<div class="content">
+<img src="exercicio2/gato_saida2.jpg" alt="gato saida2">
+</div>
+<div class="title">Figure 3. Imagem de saída</div>
+</div>
 </div>
 </div>
 </div>
@@ -509,11 +658,130 @@ de Computação e Automação da UFRN ministrada pelo professor Agostinho Brito 
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_3_1_rotular_mais_de_255_objetos">3.1. Rotular mais de 255 objetos</h3>
-
+<div class="paragraph">
+<p>No código do professor (<a href="https://agostinhobritojr.github.io/tutorial/pdi/exemplos/labeling.cpp">labeling.cpp</a>), a cor de cada objeto encontrado é modificada
+para um novo tom de cinza correspondente ao seu número de contagem. Mas, como nos computadores os valores de tom de cinza variam de 0 a 255,
+no 256º objeto encontrado pelo código ocorreria um erro, pois seria utilizado um tom de cinza inexistente. Portanto, para o objetivo do código,
+que é apenas contar a quantidade de bolhas da imagem, basta pintar todos os objetos com apenas uma cor, usando um valor constante no parâmetro
+de cor da função <code>floodFill()</code> no lugar da variável de contagem <code>nobjects</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">cv</span><span class="o">::</span><span class="n">floodFill</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span></code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_3_2_identificar_objetos_com_ou_sem_buracos_internos">3.2. Identificar objetos com ou sem buracos internos</h3>
-
+<div class="paragraph">
+<p>O objetivo deste exercício é fazer a contagem de objetos com ou sem buracos internos, podendo existir mais de um buraco dentro de um objeto
+e ignorando objetos que tocam nas bordas pois não se pode afirmar que eles tenham buracos ou não. O programa considera que na imagem de entrada
+o tom de cinza igual a 0 é o fundo e o tom 255 é um objeto.</p>
+</div>
+<div class="paragraph">
+<p>Então, para começar, foi feita a busca por objetos
+que tocam nas bordas e, quando encontrado, seu valor de tom de cinza foi alterado para o mesmo valor do fundo da imagem a partir de um <code>floodFill()</code>.
+Com o objetivo de encontrar os buracos, foi feito um <code>floodFill()</code> na coordenada (0, 0) da imagem, que modifica o tom de cinza do fundo para 70,
+visto que essa função modifica todos os pontos interligados que tenham o mesmo tom, os pontos da imagem que continuem com valor 0 serão identificados
+como buraco. O código dessa parte pode ser visto abaixo e o resultado está apresentado na <a href="index.html#bolhas2_exercicio3">Figura 5</a>,
+tendo como entrada a <a href="index.html#bolhas_exercicio3">Figura 4</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp">  <span class="c1">// busca objetos presentes nas bordas e os desconsidera</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">height</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">width</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">i</span> <span class="o">==</span> <span class="n">height</span><span class="o">-</span><span class="mi">1</span> <span class="o">||</span> <span class="n">j</span> <span class="o">==</span> <span class="n">width</span><span class="o">-</span><span class="mi">1</span><span class="p">)){</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="o">=</span><span class="n">j</span><span class="p">;</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+      	<span class="n">cv</span><span class="o">::</span><span class="n">floodFill</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+  <span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+  <span class="c1">// fundo preenchido com cor 70</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">floodFill</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="mi">70</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div id="bolhas_exercicio3" class="imageblock">
+<div class="content">
+<img src="exercicio3/bolhas.png" alt="bolhas">
+</div>
+<div class="title">Figure 4. Imagem de entrada</div>
+</div>
+<div id="bolhas2_exercicio3" class="imageblock">
+<div class="content">
+<img src="exercicio3/bolhas2.png" alt="bolhas2">
+</div>
+<div class="title">Figure 5. Imagem sem objeto nas bordas e com cor de fundo igual a 70</div>
+</div>
+<div class="paragraph">
+<p>Em seguida, foi feita a busca por buracos através do tom de cinza igual a 0. Quando um tom de cinza igual a 0 é encontrado, é verificado se o pixel anterior
+tem valor igual a 255 (que identifica um objeto). Sendo 255, um novo <code>floodFill()</code> é aplicado nesse pixel de valor 255, fazendo com que o objeto
+mude para o tom 140 (cor escolhida para identificar objetos com buracos) e é icrementado 1 à variável de contagem de objetos com buracos. Dessa maneira,
+ao encontrar um segundo buraco de um objeto, ele não será contado novamente, pois seu tom de cinza não é mais 255. O código dessa parte pode ser visto abaixo
+e o resultado está apresentado na <a href="index.html#bolhas3_exercicio3">Figura 6</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp">  <span class="c1">// busca objetos com buracos</span>
+  <span class="cm">/* se a imagem tiver mais de 1 buraco, ao encontrar o segundo buraco 
+  de um objeto que ja foi contado, a cor dele não será mais 255,
+  logo ele não será contado mais de 1 vez */</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">height</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">width</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">){</span>
+        <span class="n">nObjCom</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="o">=</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+        <span class="n">cv</span><span class="o">::</span><span class="n">floodFill</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="mi">140</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span></code></pre>
+</div>
+</div>
+<div id="bolhas3_exercicio3" class="imageblock">
+<div class="content">
+<img src="exercicio3/bolhas3.png" alt="bolhas3">
+</div>
+<div class="title">Figure 6. Imagem após contagem dos objetos com buracos</div>
+</div>
+<div class="paragraph">
+<p>Por fim, para contar os objetos sem buraco, foi feito uma busca com pixels de valor 255 e aplicado um <code>floodFill()</code> com valor 210, e foi icrementado 1 à variável de
+contagem de objetos sem buracos. O código pode ser visto abaixo e a <a href="index.html#bolhas4_exercicio3">Figura 7</a> apresenta a imagem final.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp">  <span class="c1">// busca objetos sem buracos</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">height</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">width</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">){</span>
+        <span class="n">nObjSem</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="o">=</span><span class="n">j</span><span class="p">;</span>
+        <span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+        <span class="n">cv</span><span class="o">::</span><span class="n">floodFill</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="mi">210</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span></code></pre>
+</div>
+</div>
+<div id="bolhas4_exercicio3" class="imageblock">
+<div class="content">
+<img src="exercicio3/bolhas4.png" alt="bolhas4">
+</div>
+<div class="title">Figure 7. Imagem após contagem dos objetos sem buracos</div>
+</div>
+<div class="paragraph">
+<p>A contagem dos objetos é apresentada no terminal, como pode ser vista na <a href="index.html#contagem_exercicio3">Figura 8</a>.
+O código completo se encontra em <a href="exercicio3/novoLabeling.cpp">novoLabeling.cpp</a>.</p>
+</div>
+<div id="contagem_exercicio3" class="imageblock">
+<div class="content">
+<img src="exercicio3/contagem.png" alt="contagem">
+</div>
+<div class="title">Figure 8. Contagem dos objetos</div>
+</div>
 </div>
 </div>
 </div>
@@ -522,11 +790,55 @@ de Computação e Automação da UFRN ministrada pelo professor Agostinho Brito 
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_4_1_equalizar_histograma">4.1. Equalizar histograma</h3>
-
+<div class="paragraph">
+<p>O objetivo deste exercício é fazer a equalização do histograma dos frames do vídeo capturado através de uma webcam processados em tons de cinza,
+apresentando o vídeo original e o equalizado. O processo de equalização consiste na transformação de intensidade que tem por objetivo balancear
+os níveis de cinza em uma imagem. Dessa forma, imagens com um nível de brilho desbalanceado atingem uma
+distribuição normalizada, buscando melhorar o contraste e a visualização dos detalhes presentes na cena.</p>
+</div>
+<div class="paragraph">
+<p>Usando o código disponibilizado pelo professor (<a href="https://agostinhobritojr.github.io/tutorial/pdi/exemplos/histogram.cpp">histogram.cpp</a>) e fazendo
+algumas modificações, como mudar a apresentação do vídeo de RGB para tons de cinza, o código <a href="exercicio4/equalize.cpp">equalize.cpp</a> foi desenvolvido.
+O programa consiste em utilizar a função <code>equalizeHist()</code>, que faz o processo de equalização do frame <code>image</code> e coloca o resultado na variável <code>imageEq</code>.
+Como pode ser visto no código abaixo:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">equalizeHist</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">imageEq</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>O resultado pode ser visto na <a href="index.html#equalize_exercicio4">Figura 9</a> (na esquerda a imagem de entrada e na direita a imagem equalizada, o histograma
+de cada imagem está no canto superior esquerdo da mesma) e o código completo se encontra em <a href="exercicio4/equalize.cpp">equalize.cpp</a>.</p>
+</div>
+<div id="equalize_exercicio4" class="imageblock">
+<div class="content">
+<img src="exercicio4/equalize.png" alt="equalize">
+</div>
+<div class="title">Figure 9. Equalização</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_4_2_detectar_movimento">4.2. Detectar movimento</h3>
-
+<div class="paragraph">
+<p>Usando o programa anterior como base, este exercício tem como objetivo a criação de um detector de movimento baseado na diferença entre o histograma
+de um frame atual e o histograma do
+frame anterior, utilizando um limiar pré-estabelecido que busca indicar se a diferença dos histogramas subsequentes representa um movimento. Para
+calcular essa diferença o OpenCV tem a função <code>compareHist()</code> que recebe como parâmetros os 2 histogramas que serão comparados e um valor inteiro
+que representa a equação que será utilizada
+para a comparação (as equações podem ser vistas <a href="https://docs.opencv.org/3.4/d8/dc8/tutorial_histogram_comparison.html">aqui</a>), neste código foi
+utilizada a equação <code>CV_COMP_CHISQR</code> e após alguns testes foi decidido que o limiar de 2,5 era o melhor.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">double</span> <span class="n">compara</span> <span class="o">=</span> <span class="n">compareHist</span><span class="p">(</span><span class="n">histR</span><span class="p">,</span> <span class="n">histG</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">//1 = metodo CV_COMP_CHISQR</span>
+<span class="c1">//2.5 foi aproximadamente o menor valor que não detecta ruído do histograma</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">compara</span> <span class="o">&gt;</span> <span class="mf">2.5</span><span class="p">)</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"MOVIMENTO!!"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>O código completo se encontra em <a href="exercicio4/motiondetector.cpp">motiondetector.cpp</a>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -535,7 +847,49 @@ de Computação e Automação da UFRN ministrada pelo professor Agostinho Brito 
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_5_1_calcular_o_laplaciano_do_gaussiano_das_imagens">5.1. Calcular o laplaciano do gaussiano das imagens</h3>
-
+<div class="paragraph">
+<p>O objetivo deste exercício é adicionar uma nova funcionalidade ao código do professor
+(<a href="https://agostinhobritojr.github.io/tutorial/pdi/exemplos/filtroespacial.cpp">filtroespacial.cpp</a>), esta funcionalidade faz o cálculo do laplaciano do gaussiano
+dos frames do vídeo capturado por uma webcam. Este código apenas adiciona a nova máscara e acrescenta uma nova função ao menu,
+que podem ser vistas abaixo:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp">  <span class="kt">float</span> <span class="n">laplgauss</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                       <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                       <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp">      <span class="k">case</span> <span class="sc">'x'</span><span class="p">:</span>
+        <span class="n">menu</span><span class="p">();</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">CV_32F</span><span class="p">,</span> <span class="n">laplgauss</span><span class="p">);</span>
+        <span class="k">break</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ao aplicar o filtro gaussiano antes do laplaciano procura-se diminuir os ruídos, visto que o gaussiano aplica um borramento no frame, resultando
+numa melhora na detecção de bordas feita pelo filtro laplaciano. A imagem filtrada pode ser vista na <a href="index.html#laplgauss_exercicio5">Figura 10</a>.</p>
+</div>
+<div id="laplgauss_exercicio5" class="imageblock">
+<div class="content">
+<img src="exercicio5/laplgauss.png" alt="laplgauss">
+</div>
+<div class="title">Figure 10. Filtro laplaciano do gaussiano</div>
+</div>
+<div class="paragraph">
+<p>Para efeito de comparação, a <a href="index.html#laplaciano_exercicio5">Figura 11</a> mostra o resultado do filtro laplaciano.</p>
+</div>
+<div id="laplaciano_exercicio5" class="imageblock">
+<div class="content">
+<img src="exercicio5/laplaciano.png" alt="laplaciano">
+</div>
+<div class="title">Figure 11. Filtro laplaciano</div>
+</div>
+<div class="paragraph">
+<p>O código completo se encontra em <a href="exercicio5/laplgauss.cpp">laplgauss.cpp</a>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -544,15 +898,121 @@ de Computação e Automação da UFRN ministrada pelo professor Agostinho Brito 
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_6_1_aplicar_tilt_shift_numa_imagem">6.1. Aplicar tilt-shift numa imagem</h3>
-
+<div class="paragraph">
+<p>Utilizando como referência o programa disponibilizado pelo professor (<a href="https://agostinhobritojr.github.io/tutorial/pdi/exemplos/addweighted.cpp">addweighted.cpp</a>),
+o objetivo desse exercício foi desenvolver um programa que permita fazer 3 tipos de ajustes através de trackbars numa imagem de entrada.
+O primeiro ajuste regula a altura da região central que fica em foco, o segundo ajusta o decaimento da região borrada e o terceiro ajusta a posição
+vertical da região em foco. Esses três ajustes buscam aplicar na imagem a técnica de tilt-shift, fazendo com que lugares, objetos e pessoas
+reais se pareçam com miniaturas e maquetes.</p>
+</div>
+<div class="paragraph">
+<p>A função que define a região de desfoque ao longo do eixo vertical da imagem é dada por:</p>
+</div>
+<div class="paragraph">
+<p>\(\alpha(x) = \dfrac{1}{2} \left(tanh \left(\dfrac{x-l1}{d} \right) - tanh \left(\dfrac{x-l2}{d} \right) \right)\)</p>
+</div>
+<div class="paragraph">
+<p>Onde \(d\) é o decaimento e \(l1\) e \(l2\) são as linhas cujo valor de \(\alpha\) assume valor em torno de 0.5. No programa, \(d\)
+recebe o valor direto da trackbar do decaimento, enquanto \(l1\) e \(l2\) são obtidas através das duas outras trackbars por meio de:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="n">l1</span> <span class="o">=</span> <span class="n">image1</span><span class="p">.</span><span class="n">size</span><span class="p">().</span><span class="n">height</span><span class="o">*</span><span class="p">(</span><span class="n">centro_slider</span> <span class="o">-</span> <span class="n">top_slider</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">100.0</span><span class="p">;</span>
+<span class="n">l2</span> <span class="o">=</span> <span class="n">image1</span><span class="p">.</span><span class="n">size</span><span class="p">().</span><span class="n">height</span><span class="o">*</span><span class="p">(</span><span class="n">centro_slider</span> <span class="o">+</span> <span class="n">top_slider</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">100.0</span><span class="p">;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>centro_slider</code> é a posição vertical do centro da região em foco e <code>top_slider</code> é a altura.</p>
+</div>
+<div class="paragraph">
+<p>Então, o programa começa recebendo uma imagem e fazendo uma cópia dela. Esta cópia passa por um processo de borramento através de um filtro de média,
+que é aplicado dez vezes para reforçar o efeito de borramento.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp">  <span class="n">image1</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">imread</span><span class="p">(</span><span class="s">"Pedestres.jpg"</span><span class="p">);</span> 
+  <span class="n">resize</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image1</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">Size</span><span class="p">(</span><span class="mi">750</span><span class="p">,</span><span class="mi">500</span><span class="p">));</span>
+  <span class="n">image1</span><span class="p">.</span><span class="n">copyTo</span><span class="p">(</span><span class="n">image2</span><span class="p">);</span>  <span class="c1">//image2 é uma copia de image1 que vai passar por um borramento</span>
+  <span class="kt">float</span> <span class="n">media</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.1111</span><span class="p">,</span> <span class="mf">0.1111</span><span class="p">,</span> <span class="mf">0.1111</span><span class="p">,</span> <span class="mf">0.1111</span><span class="p">,</span> <span class="mf">0.1111</span><span class="p">,</span>
+                   <span class="mf">0.1111</span><span class="p">,</span> <span class="mf">0.1111</span><span class="p">,</span> <span class="mf">0.1111</span><span class="p">,</span> <span class="mf">0.1111</span><span class="p">};</span>
+  
+  <span class="n">image2</span><span class="p">.</span><span class="n">convertTo</span><span class="p">(</span><span class="n">image2</span><span class="p">,</span> <span class="n">CV_32F</span><span class="p">);</span>
+  <span class="n">mask</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CV_32F</span><span class="p">,</span> <span class="n">media</span><span class="p">);</span>  
+  <span class="c1">//aplicando o filtro 10 vezes para reforçar o borramento</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">filter2D</span><span class="p">(</span><span class="n">image2</span><span class="p">,</span> <span class="n">image2</span><span class="p">,</span> <span class="n">image2</span><span class="p">.</span><span class="n">depth</span><span class="p">(),</span> <span class="n">mask</span><span class="p">,</span>
+                 <span class="n">cv</span><span class="o">::</span><span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">image2</span><span class="p">.</span><span class="n">convertTo</span><span class="p">(</span><span class="n">image2</span><span class="p">,</span> <span class="n">CV_8U</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Agora, o efeito de tilt-shift é aplicado ao ponderarmos a imagem original com a função \(\alpha(x)\) e a cópia borrada com \(1 - \alpha(x)\).
+Isso é feito linha por linha da imagem usando a função <code>addWeighted()</code> do OpenCV e o resultado é aplicado na variável <code>blended</code>, que tem as mesmas
+dimensões da imagem de entrada:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp">  <span class="c1">//ponderação entre a imagem original com o alfa e a imagem borrada com o negativo de alfa</span>
+  <span class="c1">//e a combinação delas, resultando no efeito tiltshift</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">image1</span><span class="p">.</span><span class="n">size</span><span class="p">().</span><span class="n">height</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="n">alfa</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">tanh</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="n">l1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="n">dec_slider</span><span class="o">+</span><span class="mf">1.0</span><span class="p">))</span><span class="o">-</span><span class="n">tanh</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="n">l2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="kt">double</span><span class="p">)(</span><span class="n">dec_slider</span><span class="o">+</span><span class="mf">1.0</span><span class="p">)));</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">addWeighted</span><span class="p">(</span><span class="n">image1</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">alfa</span><span class="p">,</span> <span class="n">image2</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="mi">1</span><span class="o">-</span><span class="n">alfa</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">blended</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+  <span class="p">}</span> 
+  <span class="n">cv</span><span class="o">::</span><span class="n">imshow</span><span class="p">(</span><span class="s">"tiltshift"</span><span class="p">,</span> <span class="n">blended</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Como imagem de entrada, foi usada a <a href="index.html#pedestres_exercicio6">Figura 12</a>. E como resultado, foi obtida a
+<a href="index.html#pedestres_tiltshift_exercicio6">Figura 13</a></p>
+</div>
+<div id="pedestres_exercicio6" class="imageblock">
+<div class="content">
+<img src="exercicio6/Pedestres.jpg" alt="Pedestres" width="750" height="500">
+</div>
+<div class="title">Figure 12. Imagem de entrada</div>
+</div>
+<div id="pedestres_tiltshift_exercicio6" class="imageblock">
+<div class="content">
+<img src="exercicio6/pedestres_tiltshift.png" alt="pedestres tiltshift">
+</div>
+<div class="title">Figure 13. Imagem de saída</div>
+</div>
+<div class="paragraph">
+<p>O código completo se encontra em <a href="exercicio6/tiltshift.cpp">tiltshift.cpp</a>.</p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-17 20:46:10 -0300
+Last updated 2022-05-29 13:34:30 -0300
 </div>
 </div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
 </body>
 </html>
