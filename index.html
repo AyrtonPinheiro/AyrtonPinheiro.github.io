@@ -564,6 +564,21 @@ pre.rouge .ss {
 <li><a href="#_6_1_aplicar_tilt_shift_numa_imagem">6.1. Aplicar tilt-shift numa imagem</a></li>
 </ul>
 </li>
+<li><a href="#_7_filtragem_no_domínio_da_frequência">7. Filtragem no domínio da frequência</a>
+<ul class="sectlevel2">
+<li><a href="#_7_1_implementar_um_filtro_homomórfico">7.1. Implementar um filtro homomórfico</a></li>
+</ul>
+</li>
+<li><a href="#_8_detecção_de_bordas_com_o_algoritmo_de_canny">8. Detecção de bordas com o algoritmo de Canny</a>
+<ul class="sectlevel2">
+<li><a href="#_8_1_criar_técnica_pontilhista_com_uso_do_algoritmo_de_canny">8.1. Criar técnica pontilhista com uso do algoritmo de Canny</a></li>
+</ul>
+</li>
+<li><a href="#_9_quantização_vetorial_com_k_means">9. Quantização vetorial com k-means</a>
+<ul class="sectlevel2">
+<li><a href="#_9_1_executar_o_programa_do_professor_com_novos_parâmetros">9.1. Executar o programa do professor com novos parâmetros</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -984,10 +999,243 @@ dimensões da imagem de entrada:</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_7_filtragem_no_domínio_da_frequência">7. Filtragem no domínio da frequência</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_7_1_implementar_um_filtro_homomórfico">7.1. Implementar um filtro homomórfico</h3>
+<div class="paragraph">
+<p>O objetivo deste exercício é aplicar um filtro homomórfico em uma imagem buscando melhorar sua iluminação. Esse filtro é aplicado no domínio
+da frequência e é representado pela expressão a seguir e seu gráfico pode ser visto na <a href="index.html#grafico_homomorfico_exercicio7">Figura 14</a>.</p>
+</div>
+<div class="paragraph">
+<p>\( H(u,v) = (\gamma_H - \gamma_L)\left(1 - e^{-c \frac{D^2(u,v)}{D_0^2}} \right) - \gamma_L \)</p>
+</div>
+<div id="grafico_homomorfico_exercicio7" class="imageblock">
+<div class="content">
+<img src="exercicio7/grafico_homomorfico.png" alt="grafico homomorfico" width="476" height="248">
+</div>
+<div class="title">Figure 14. Gráfico do filtro homomórfico</div>
+</div>
+<div class="paragraph">
+<p>Onde \(\gamma_H\), \(\gamma_L\), \(D_0\) e \(c\) variam através de trackbars implementadas no código e \(D^2(u,v)\) é obtido através de:</p>
+</div>
+<div class="paragraph">
+<p>\( D^2(u,v) = \left(u - \frac{M}{2}\right)^2 + \left(v - \frac{N}{2} \right)^2 \)</p>
+</div>
+<div class="paragraph">
+<p>O programa disponibilizado pelo professor (<a href="https://agostinhobritojr.github.io/tutorial/pdi/exemplos/dft.cpp">dft.cpp</a>) foi usado como referência e
+a equação do filtro foi adicionada na função <code>on_trackbar_efeito(int, void*)</code> que pode ser vista abaixo.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">on_trackbar_efeito</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">filter</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">(</span><span class="n">padded</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">CV_32FC2</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+  <span class="n">tmp</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">(</span><span class="n">dft_M</span><span class="p">,</span> <span class="n">dft_N</span><span class="p">,</span> <span class="n">CV_32F</span><span class="p">);</span>
+  <span class="kt">float</span> <span class="n">c0</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">gammaH</span><span class="p">,</span> <span class="n">gammaL</span><span class="p">,</span> <span class="n">dQuad</span><span class="p">;</span>
+  <span class="n">c0</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">c_slider</span><span class="o">/</span><span class="mf">10.0</span><span class="p">;</span>
+  <span class="n">d0</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">d0_slider</span><span class="o">/</span><span class="mf">10.0</span><span class="p">;</span>
+  <span class="n">gammaH</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">gammaH_slider</span><span class="o">/</span><span class="mf">10.0</span><span class="p">;</span>
+  <span class="n">gammaL</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">gammaL_slider</span><span class="o">/</span><span class="mf">10.0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">dft_M</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">dft_N</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="n">dQuad</span> <span class="o">=</span> <span class="n">pow</span><span class="p">((</span><span class="kt">float</span><span class="p">)</span><span class="n">i</span> <span class="o">-</span> <span class="n">dft_M</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">pow</span><span class="p">((</span><span class="kt">float</span><span class="p">)</span><span class="n">j</span> <span class="o">-</span> <span class="n">dft_N</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="n">tmp</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">gammaH</span> <span class="o">-</span> <span class="n">gammaL</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="o">*</span><span class="p">(</span><span class="n">c0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">dQuad</span><span class="o">/</span><span class="p">(</span><span class="n">d0</span><span class="o">*</span><span class="n">d0</span><span class="p">))))</span> <span class="o">+</span> <span class="n">gammaL</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  
+  <span class="c1">// cria a matriz com as componentes do filtro e junta</span>
+  <span class="c1">// ambas em uma matriz multicanal complexa</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">comps</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="n">tmp</span><span class="p">,</span> <span class="n">tmp</span><span class="p">};</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">merge</span><span class="p">(</span><span class="n">comps</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">filter</span><span class="p">);</span>
+  
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">cloneComplexImage</span> <span class="o">=</span> <span class="n">complexImage</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
+  
+  <span class="c1">// aplica o filtro de frequencia</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">mulSpectrums</span><span class="p">(</span><span class="n">cloneComplexImage</span><span class="p">,</span> <span class="n">filter</span><span class="p">,</span> <span class="n">cloneComplexImage</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  
+  <span class="c1">// troca novamente os quadrantes</span>
+  <span class="n">deslocaDFT</span><span class="p">(</span><span class="n">cloneComplexImage</span><span class="p">);</span>
+
+  <span class="c1">// calcula a DFT inversa</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">idft</span><span class="p">(</span><span class="n">cloneComplexImage</span><span class="p">,</span> <span class="n">cloneComplexImage</span><span class="p">);</span>
+
+  <span class="c1">// limpa o array de planos</span>
+  <span class="n">planos</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+
+  <span class="c1">// separa as partes real e imaginaria da</span>
+  <span class="c1">// imagem filtrada</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">split</span><span class="p">(</span><span class="n">cloneComplexImage</span><span class="p">,</span> <span class="n">planos</span><span class="p">);</span>
+
+  <span class="c1">// normaliza a parte real para exibicao</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">planos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">planos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">NORM_MINMAX</span><span class="p">);</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">imshow</span><span class="p">(</span><span class="s">"filtroHomomorfico"</span><span class="p">,</span> <span class="n">planos</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>    
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A <a href="index.html#texto_exercicio7">Figura 15</a> foi usada como entrada e o resultado pode ser visto na <a href="index.html#textoFiltrado_exercicio7">Figura 16</a></p>
+</div>
+<div id="texto_exercicio7" class="imageblock">
+<div class="content">
+<img src="exercicio7/texto.jpg" alt="texto" width="800" height="600">
+</div>
+<div class="title">Figure 15. Imagem de entrada</div>
+</div>
+<div id="textoFiltrado_exercicio7" class="imageblock">
+<div class="content">
+<img src="exercicio7/textoFiltrado.png" alt="textoFiltrado">
+</div>
+<div class="title">Figure 16. Imagem de saída</div>
+</div>
+<div class="paragraph">
+<p>O código completo se encontra em <a href="exercicio7/filtro_homomorfico.cpp">filtro_homomorfico.cpp</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_8_detecção_de_bordas_com_o_algoritmo_de_canny">8. Detecção de bordas com o algoritmo de Canny</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_8_1_criar_técnica_pontilhista_com_uso_do_algoritmo_de_canny">8.1. Criar técnica pontilhista com uso do algoritmo de Canny</h3>
+<div class="paragraph">
+<p>Utilizando os programas <a href="https://agostinhobritojr.github.io/tutorial/pdi/exemplos/canny.cpp">canny.cpp</a> e
+<a href="https://agostinhobritojr.github.io/tutorial/pdi/exemplos/pontilhismo.cpp">pontilhismo.cpp</a> como referência, foi implementado um programa que
+recebe uma imagem de entrada e gera uma imagem pontilhista a partir dela seguido da utilização do algoritmo de Canny para melhorar a qualidade da imagem
+pontilhista. A imagem original em cinza pode ser vista na <a href="index.html#imagemOriginalCinza_exercicio8">Figura 17</a>.</p>
+</div>
+<div id="imagemOriginalCinza_exercicio8" class="imageblock">
+<div class="content">
+<img src="exercicio8/originalCinza.jpg" alt="originalCinza">
+</div>
+<div class="title">Figure 17. Imagem de entrada em cinza</div>
+</div>
+<div class="paragraph">
+<p>Após aplicar o pontilhismo na imagem, foi adicionado o código a seguir para remover as espaços brancos entre os cículos, resultando na
+<a href="index.html#Pontilhismo_exercicio8">Figura 18</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp">  <span class="c1">//para tirar os espaços entre os circulos </span>
+  <span class="c1">//se o pixel for igual a 255, ele recebe a cor da imagem original</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">height</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">width</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">points</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="mi">255</span><span class="p">){</span>
+        <span class="n">points</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span></code></pre>
+</div>
+</div>
+<div id="Pontilhismo_exercicio8" class="imageblock">
+<div class="content">
+<img src="exercicio8/Pontilhismo.jpg" alt="Pontilhismo">
+</div>
+<div class="title">Figure 18. Pontilhismo sem Canny</div>
+</div>
+<div class="paragraph">
+<p>Em seguida foi executada a função <code>on_trackbar_canny(int, void*)</code> que é ativada ao mover a trackbar do programa, quanto maior o valor dessa trackbar
+menor é a quantidade de bordas detectada pelo algoritmo de Canny. Essa função aplica o algoritmo de Canny (<a href="index.html#bordaCanny_exercicio8">Figura 19</a>)
+e posteriormente adiciona o efeito de pontilhismo na borda detectada (<a href="index.html#bordaPontilhismo_exercicio8">Figura 20</a>).
+O raio dos círculos nas bordas são menores que os da imagem completa. Por último, as bordas pontilhadas são adicionadas a imagem pontilhada completa e
+o resultado pode ser visto na <a href="index.html#PontilhismoCanny_exercicio8">Figura 21</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="kt">void</span> <span class="nf">on_trackbar_canny</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span><span class="p">){</span>
+  <span class="n">Canny</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">border</span><span class="p">,</span> <span class="n">top_slider</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">top_slider</span><span class="p">);</span>
+  <span class="n">imwrite</span><span class="p">(</span><span class="s">"bordaCanny.jpg"</span><span class="p">,</span> <span class="n">border</span><span class="p">);</span>
+
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">height</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">width</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">border</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">250</span><span class="p">){</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="n">rand</span><span class="p">()</span><span class="o">%</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">JITTER</span><span class="p">)</span><span class="o">-</span><span class="n">JITTER</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">j</span><span class="o">+</span><span class="n">rand</span><span class="p">()</span><span class="o">%</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">JITTER</span><span class="p">)</span><span class="o">-</span><span class="n">JITTER</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">gray</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+        <span class="n">circle</span><span class="p">(</span><span class="n">border</span><span class="p">,</span>
+             <span class="n">cv</span><span class="o">::</span><span class="n">Point</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">),</span>
+             <span class="n">RAIO</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+             <span class="n">CV_RGB</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span><span class="n">gray</span><span class="p">,</span><span class="n">gray</span><span class="p">),</span>
+             <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+             <span class="n">cv</span><span class="o">::</span><span class="n">LINE_AA</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">clonePoints</span> <span class="o">=</span> <span class="n">points</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
+  <span class="c1">//para pixels com valor maior que 50, a matriz clonePoints recebe o valor da matriz borda</span>
+  <span class="c1">//ao usar a condicao "maior que 0", a imagem final ficava com muitos pixels escuros</span>
+  <span class="c1">//ao redor dos circulos da borda</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">height</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">width</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">border</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">50</span><span class="p">){</span>
+        <span class="n">clonePoints</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">border</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="n">uchar</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">imshow</span><span class="p">(</span><span class="s">"canny"</span><span class="p">,</span> <span class="n">clonePoints</span><span class="p">);</span>
+  <span class="c1">//imshow("canny", border);</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div id="bordaCanny_exercicio8" class="imageblock">
+<div class="content">
+<img src="exercicio8/bordaCanny.jpg" alt="bordaCanny">
+</div>
+<div class="title">Figure 19. Bordas pelo algoritmo de Canny</div>
+</div>
+<div id="bordaPontilhismo_exercicio8" class="imageblock">
+<div class="content">
+<img src="exercicio8/bordaPontilhismo.jpg" alt="bordaPontilhismo">
+</div>
+<div class="title">Figure 20. Potilhismo nas bordas</div>
+</div>
+<div id="PontilhismoCanny_exercicio8" class="imageblock">
+<div class="content">
+<img src="exercicio8/resultado.jpg" alt="resultado">
+</div>
+<div class="title">Figure 21. Pontilhismo com Canny.</div>
+</div>
+<div class="paragraph">
+<p>O código completo se encontra em <a href="exercicio8/cannypoints.cpp">cannypoints.cpp</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_9_quantização_vetorial_com_k_means">9. Quantização vetorial com k-means</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_9_1_executar_o_programa_do_professor_com_novos_parâmetros">9.1. Executar o programa do professor com novos parâmetros</h3>
+<div class="paragraph">
+<p>Utilizando o programa disponibilizado pelo professor (<a href="https://agostinhobritojr.github.io/tutorial/pdi/exemplos/kmeans.cpp">kmeans.cpp</a>), o valor de nRodadas
+foi alterado para 1 e o valor inicial dos centros passou a ser dado de forma aleatória a partir do
+parâmetro <code>KMEANS_RANDOM_CENTERS</code> no lugar do <code>KMEANS_PP_CENTERS</code>. O programa foi executado 10 vezes com a mesma imagem de entrada
+(<a href="index.html#cidade_exercicio9">Figura 22</a>) resultando nas 10 imagens presentes no gif da <a href="index.html#cidadegif_exercicio9">Figura 23</a>.</p>
+</div>
+<div id="cidade_exercicio9" class="imageblock">
+<div class="content">
+<img src="exercicio9/cidade.jpg" alt="cidade">
+</div>
+<div class="title">Figure 22. Imagem de entrada.</div>
+</div>
+<div id="cidadegif_exercicio9" class="imageblock">
+<div class="content">
+<img src="exercicio9/cidade-kmeans.gif" alt="cidade kmeans">
+</div>
+<div class="title">Figure 23. Imagens de saída.</div>
+</div>
+<div class="paragraph">
+<p>Não foi possível perceber diferença entre as imagens de saída, no entanto, como o valor dos centros é aleatório inicialmente, as imagens de saída podem
+ser diferentes a cada vez que o programa é executado.</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-05-29 13:34:30 -0300
+Last updated 2022-07-01 19:37:46 -0300
 </div>
 </div>
 <script type="text/x-mathjax-config">
